@@ -76,7 +76,6 @@ class TestServer(Server):
             tensors=[], tensor_type="numpy.ndarray"
         )
         self.strategy: Strategy = strategy if strategy is not None else FedAvg()
-        
         self.max_workers: Optional[int] = None
 
     def set_max_workers(self, max_workers: Optional[int]) -> None:
@@ -378,7 +377,10 @@ def evaluate_client(
     return client, evaluate_res
 
 # Start Flower server
-strategy = flwr.server.strategy.FedAvg(min_fit_clients= 1, min_evaluate_clients= 1, min_available_clients= 1)
+strategy = flwr.server.strategy.FedAvg(
+    min_fit_clients=1, min_evaluate_clients=1, min_available_clients=1
+)
+
 clientmanager = SimpleClientManager()
 server = TestServer(client_manager=clientmanager, strategy=strategy)
 
